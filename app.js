@@ -10,6 +10,17 @@ const waterInput = document.getElementById("water");
 const sleepInput = document.getElementById("sleep");
 const workoutInput = document.getElementById("workout");
 const saveButton = document.getElementById("saveButton");
+const weeklyRangeLabel = document.getElementById("weeklyRangeLabel");
+const weeklySteps = document.getElementById("weeklySteps");
+const weeklyWater = document.getElementById("weeklyWater");
+const weeklySleep = document.getElementById("weeklySleep");
+const weeklyWorkout = document.getElementById("weeklyWorkout");
+const weeklyCompleted = document.getElementById("weeklyCompleted");
+const overallSteps = document.getElementById("overallSteps");
+const overallWater = document.getElementById("overallWater");
+const overallSleep = document.getElementById("overallSleep");
+const overallWorkout = document.getElementById("overallWorkout");
+const overallCompleted = document.getElementById("overallCompleted");
 
 let plan = null;
 let selectedIndex = 0;
@@ -95,6 +106,54 @@ function updateProgress() {
   progressMeter.style.width = `${percent}%`;
 }
 
+function renderSummaries() {
+  if (!plan || !plan.days) return;
+
+  // Weekly summary for the currently selected week
+  const weekIndex = Math.floor(selectedIndex / 7);
+  const weekStart = weekIndex * 7;
+  const weekDays = plan.days.slice(weekStart, weekStart + 7);
+
+  const wkTotals = weekDays.reduce(
+    (acc, d) => {
+      acc.steps += Number(d.steps || 0);
+      acc.water += Number(d.water || 0);
+      acc.sleep += Number(d.sleep || 0);
+      acc.workout += Number(d.workout || 0);
+      acc.completed += d.completed ? 1 : 0;
+      return acc;
+    },
+    { steps: 0, water: 0, sleep: 0, workout: 0, completed: 0 }
+  );
+
+  weeklyRangeLabel.textContent = `${plan.days[weekStart].date} → ${plan.days[Math.min(weekStart + 6, plan.days.length - 1)].date}`;
+  weeklySteps.textContent = wkTotals.steps;
+  weeklyWater.textContent = wkTotals.water.toFixed(1);
+  weeklySleep.textContent = wkTotals.sleep.toFixed(1);
+  weeklyWorkout.textContent = Math.round(wkTotals.workout / weekDays.length);
+  weeklyCompleted.textContent = `${wkTotals.completed} / ${weekDays.length}`;
+
+  // Overall summary
+  const allTotals = plan.days.reduce(
+    (acc, d) => {
+      acc.steps += Number(d.steps || 0);
+      acc.water += Number(d.water || 0);
+      acc.sleep += Number(d.sleep || 0);
+      acc.workout += Number(d.workout || 0);
+      acc.completed += d.completed ? 1 : 0;
+      return acc;
+    },
+    { steps: 0, water: 0, sleep: 0, workout: 0, completed: 0 }
+  );
+
+  const daysCount = plan.days.length || 90;
+  overallSteps.textContent = Math.round(allTotals.steps / daysCount);
+  overallWater.textContent = (allTotals.water / daysCount).toFixed(1);
+  overallSleep.textContent = (allTotals.sleep / daysCount).toFixed(1);
+  overallWorkout.textContent = Math.round(allTotals.workout / daysCount);
+  overallCompleted.textContent = `${allTotals.completed} / ${daysCount}`;
+}
+
 function renderPlan() {
   if (!plan) {
     return;
@@ -105,6 +164,7 @@ function renderPlan() {
   updateSelectedState();
   renderDays();
   updateProgress();
+  renderSummaries();
 }
 
 function handleStartPlan() {
