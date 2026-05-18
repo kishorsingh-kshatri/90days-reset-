@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daywise Workout Routine</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/icon.svg" />
+  <meta name="theme-color" content="#4338ca" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>Daywise Workout Routine</h1>
+      <p>Plan your workouts by day and follow a weekly routine with ease.</p>
+      <button id="installButton" class="install-button" hidden>Install App</button>
+    </header>
+
+    <section class="card form-card">
+      <h2>Add Routine Exercise</h2>
+      <form id="routineForm">
+        <div class="row">
+          <label>
+            Day
+            <select id="daySelect" required>
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+              <option value="Sunday">Sunday</option>
+            </select>
+          </label>
+          <label>
+            Exercise
+            <input id="exercise" type="text" placeholder="e.g. Squats, Bench Press" required />
+          </label>
+        </div>
+        <div class="row">
+          <label>
+            Sets
+            <input id="sets" type="number" min="1" value="3" required />
+          </label>
+          <label>
+            Reps
+            <input id="reps" type="number" min="1" value="10" required />
+          </label>
+          <label>
+            Weight
+            <input id="weight" type="number" min="0" value="0" />
+          </label>
+        </div>
+        <label>
+          Notes
+          <textarea id="notes" rows="3" placeholder="Optional details"></textarea>
+        </label>
+        <button type="submit">Add to Routine</button>
+      </form>
+    </section>
+
+    <section class="card routine-card">
+      <div class="entries-header">
+        <div>
+          <h2>Weekly Routine</h2>
+          <p class="hint">Select a day to view the exercises planned for it.</p>
+        </div>
+        <div class="button-group">
+          <button id="clearDayButton">Clear Day</button>
+          <button id="clearAllButton">Clear All</button>
+        </div>
+      </div>
+      <div id="dayTabs" class="day-tabs"></div>
+      <div class="selected-day-banner">Selected day: <span id="selectedDayLabel"></span></div>
+      <div id="routineList" class="entries-list"></div>
+    </section>
+  </div>
+
+  <template id="routineTemplate">
+    <article class="entry-card">
+      <label class="task-row">
+        <input class="task-checkbox" type="checkbox" />
+        <div>
+          <h3 class="task-title"></h3>
+          <p class="task-meta"></p>
+          <p class="task-notes"></p>
+        </div>
+      </label>
+      <button class="delete-button">Delete</button>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>

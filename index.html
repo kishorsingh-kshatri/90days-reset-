@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design Review Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header>
+      <h1>Design Review Tracker</h1>
+      <p>Capture review items, assign owners, and track status.</p>
+    </header>
+
+    <section class="card form-card">
+      <h2>Add a Review Item</h2>
+      <form id="itemForm">
+        <label>
+          Description
+          <textarea id="description" rows="3" placeholder="Describe the issue or action item"></textarea>
+        </label>
+        <label>
+          Owner
+          <input id="owner" type="text" placeholder="Who is responsible?" />
+        </label>
+        <label>
+          Priority
+          <select id="priority">
+            <option value="Low">Low</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="High">High</option>
+          </select>
+        </label>
+        <button type="submit">Add Item</button>
+      </form>
+    </section>
+
+    <section class="card list-card">
+      <div class="list-header">
+        <h2>Review Items</h2>
+        <div class="filters">
+          <label>
+            Filter
+            <select id="statusFilter">
+              <option value="All">All</option>
+              <option value="Open">Open</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Done">Done</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <div id="itemsList" class="items-list"></div>
+    </section>
+  </div>
+
+  <template id="itemTemplate">
+    <article class="item-card">
+      <div class="item-content">
+        <p class="item-description"></p>
+        <div class="item-meta">
+          <span class="item-owner"></span>
+          <span class="item-priority"></span>
+          <span class="item-status"></span>
+        </div>
+      </div>
+      <div class="item-actions">
+        <button class="status-button">Toggle Status</button>
+        <button class="delete-button">Delete</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
